@@ -3,7 +3,7 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
 const app = express();
-var staff = require('./router/staff');
+var staff = require('./lib/router/staff');
 
 const MONGO_URL = "mongodb://localhost:27017/";
 
@@ -17,6 +17,8 @@ MongoClient.connect(MONGO_URL, (err, db) => {
     console.log('Database is up...');
 });
 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 app.all('/', (req, res) => {
     res.send('Everything okay!');
 });
