@@ -1,26 +1,25 @@
 'use strict';
 
 const express = require('express');
-const MongoClient = require('mongodb').MongoClient;
+const config = require('config');
 const app = express();
-var staff = require('./lib/router/staff');
 
-const MONGO_URL = "mongodb://localhost:27017/";
+const staff = require('./router/staff');
+const database = require('./lib/database');
 
-const PORT = 8080;
-const HOST = "localhost";
+const PORT = config.get('server.port');
+const HOST = config.get('server.host');
+const DATABASE = config.get('db.name');
 
-MongoClient.connect(MONGO_URL, (err, db) => {
-    if(err) err;
-    var dbo = db.db("mydb");
-    staff.setDatabase(dbo);
-    console.log('Database is up...');
+database.connectToDatabase(DATABASE, (err) => {
+    if(err) throw err;
+    console.log('Database "' + database.db.databaseName + '" is up...'); 
 });
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.all('/', (req, res) => {
-    res.send('Everything okay!');
+    res.send('Homepage');
 });
 
 app.use('/staff', staff.router);
@@ -29,3 +28,5 @@ app.listen(PORT, HOST, (err) => {
     if(err) throw err;
     console.log(`Running on http//${HOST}:${PORT}`);
 });
+
+module.exports = app;
