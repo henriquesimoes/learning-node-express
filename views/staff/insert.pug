@@ -1,0 +1,14 @@
+extends ../layout.pug
+
+block content
+    form(method="post", action= "insert")
+        p: label Nome:
+            input(name="name", required)
+        p: label Salary:
+            input(name="salary", required)
+        p: label Phone:
+            input(name="phone", required)
+        p: label Email:
+            input(name="email", required)
+        button(type="submit") Submit
+    p: a(href="http://localhost:8080/staff") Voltar

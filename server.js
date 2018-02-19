@@ -16,10 +16,12 @@ database.connectToDatabase(DATABASE, (err) => {
     console.log('Database "' + database.db.databaseName + '" is up...'); 
 });
 
+app.set('view engine', 'pug');
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.all('/', (req, res) => {
-    res.send('Homepage');
+    res.render('home/home', {title: 'Homepage'});
 });
 
 app.use('/staff', staff.router);

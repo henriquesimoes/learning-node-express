@@ -1,6 +1,5 @@
 'use strict';
 const express = require('express');
-const View = require('../lib/view');
 const Database = require('../lib/database');
 
 class StaffRouter {
@@ -14,26 +13,13 @@ class StaffRouter {
         this.router.get('/', (req, res) => {
             Database.db.collection('staff').find({}).toArray((err, data) => {
                 if(err) throw err;
-                var table = '<table border>';
-                table += '<tr>';
-                table += '<th>Name</th><th>Salary</th><th>Phone</th><th>Email</th><th>Action</th>';
-                table += '</tr>';
-                data.forEach(staff => {
-                    table += '<tr>';
-                    table += `<td>${staff.name}</td>`;
-                    table += `<td>${staff.salary}</td>`;
-                    table += `<td>${staff.phone}</td>`;
-                    table += `<td>${staff.email}</td>`;
-                    table += `<td><a href='http://localhost:8080/staff/delete/${staff._id}'>Delete</a></tr>`;
-                });
-                table += '</table>';
-                View.render(res, 'staff/index.html', {title: 'Staffs', table: table});
+                res.render('staff/home', {title: 'Staffs', staffs: data});
             });
         });
 
         this.router.route('/insert')
                 .get((req, res) => {
-                    View.render(res, 'staff/insert.html', {title: 'Add new Staff'});
+                    res.render('staff/insert', {title: 'Add new Staff'});
                 })
                 .post((req, res) => {
                     Database.db.createCollection('staff', (err, db) => {
@@ -45,9 +31,7 @@ class StaffRouter {
                             email: req.body.email
                         }, (err, result) =>{
                             if(err) throw err;
-                            let message = req.body.name + ' inserted! ';
-                            message += '<a href="http://localhost:8080/staff/">Voltar</a>';
-                            res.send(message);
+                            res.redirect('../staff');
                         });
                     });
                 });
@@ -55,7 +39,7 @@ class StaffRouter {
         this.router.get('/delete/:id', (req, res) => {
             Database.db.collection('staff').deleteOne({_id: Database.createObjectID(req.params.id)}, (err, obj) => {
                 if(err) throw err;
-                res.redirect('../');
+                res.redirect('..');
             });
         });
     }

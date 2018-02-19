@@ -1,0 +1,18 @@
+extends ../layout.pug
+
+block content
+    table(border)
+        tr
+            th Name
+            th Salary
+            th Phone
+            th Email
+            th Action
+        each staff in staffs
+            tr
+                td= staff.name
+                td= staff.salary
+                td= staff.phone
+                td= staff.email
+                td: a(href="http://localhost:8080/staff/delete/" + staff._id) Delete
+    a(href="http://localhost:8080/staff/insert") Adicionar novo registro
