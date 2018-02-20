@@ -7,7 +7,7 @@ block content
             th Salary
             th Phone
             th Email
-            th Action
+            th(colspan=2) Action
         each staff in staffs
             tr
                 td= staff.name
@@ -15,4 +15,5 @@ block content
                 td= staff.phone
                 td= staff.email
                 td: a(href="http://localhost:8080/staff/delete/" + staff._id) Delete
+                td: a(href="http://localhost:8080/staff/edit/" + staff._id) Edit
     a(href="http://localhost:8080/staff/insert") Adicionar novo registro

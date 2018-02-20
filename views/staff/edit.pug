@@ -1,0 +1,15 @@
+extends ../layout.pug
+
+block content
+    form(method="post", action="edit")
+        input(name="id", value= staff._id, required, hidden)
+        p: label Nome:
+            input(name="name", value= staff.name, required)
+        p: label Salary:
+            input(name="salary", value= staff.salary, required)
+        p: label Phone:
+            input(name="phone", value= staff.phone, required)
+        p: label Email:
+            input(name="email", value= staff.email, required)
+        button(type="submit") Edit
+    p: a(href="http://localhost:8080/staff") Voltar
