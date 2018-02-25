@@ -11,7 +11,7 @@ class StaffRouter {
         });
         
         this.router.get('/', (req, res) => {
-            Database.db.collection('staff').find({}).toArray((err, data) => {
+            Database.db.collection('staff').find({name: new RegExp(req.query.q, "ig")}).toArray((err, data) => {
                 if(err) throw err;
                 res.render('staff/home', {title: 'Staffs', staffs: data});
             });

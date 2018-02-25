@@ -1,6 +1,10 @@
 extends ../layout.pug
 
 block content
+    h1 Staffs
+    form(method="get", action='/staff')
+        input(name="q")
+        button(type="submit") Search
     table(border)
         tr
             th Name
