@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node test/all.js"
+    "test": "export NODE_ENV=test && mocha --timeout 30000"
   },
   "author": "Henrique Simões",
   "license": "ISC",
@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "mocha": "^5.0.1"
   }
 }

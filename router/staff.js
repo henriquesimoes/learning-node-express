@@ -1,25 +1,25 @@
 'use strict';
 const express = require('express');
 const Database = require('../lib/database');
+const config = require("config");
 
 class StaffRouter {
     constructor(){
         this.router = express.Router();
-    
-        this.router.use((req, res, next) => {
-            next();
-        });
+        if(config.get("response.return") === "json"){
+            this.json = true;
+        }
         
         this.router.get('/', (req, res) => {
             Database.db.collection('staff').find({name: new RegExp(req.query.q, "ig")}).toArray((err, data) => {
                 if(err) throw err;
-                res.render('staff/home', {title: 'Staffs', staffs: data});
+                this.render(res, 'staff/home', {title: 'Staffs', staffs: data});
             });
         });
 
         this.router.route('/insert')
                 .get((req, res) => {
-                    res.render('staff/insert', {title: 'Add new Staff'});
+                    this.render(res, 'staff/insert', {title: 'Add new Staff'});
                 })
                 .post((req, res) => {
                     Database.db.createCollection('staff', (err, db) => {
@@ -48,7 +48,7 @@ class StaffRouter {
                 Database.db.collection('staff').find(
                     {_id: Database.createObjectID(req.params.id)}
                 ).toArray((err, data) => {
-                    res.render('staff/edit', {title: 'Edit', staff: data[0]});
+                    this.render(res, 'staff/edit', {title: 'Edit', staff: data[0]});
                 })
             })
             .post((req, res) => {
@@ -65,7 +65,15 @@ class StaffRouter {
                         res.redirect('../');
                     }
                 );
-            } )
+            });
+    }
+    render(res, file, data){
+        if(this.json){
+            res.json(data);
+        }
+        else{
+            res.render(file, data);
+        }
     }
 }
 

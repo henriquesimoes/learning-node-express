@@ -1,0 +1,8 @@
+{
+    "db": {
+        "name": "plantio-test"
+    },
+    "response": {
+        "return": "json"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "db": {
+        "driver": "mongodb",
+        "host": "localhost",
+        "port": 27017,
+        "name": "plantio"
+    },
+    "server": {
+        "host": "localhost",
+        "port": 8080
+    },
+    "response": {
+        "return": "html"
+    }
+}

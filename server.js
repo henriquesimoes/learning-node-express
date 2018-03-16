@@ -11,14 +11,16 @@ const PORT = config.get('server.port');
 const HOST = config.get('server.host');
 const DATABASE = config.get('db.name');
 
-database.connectToDatabase(DATABASE, (err) => {
-    if(err){
-        console.log('Database is not up...')
-        console.error('Error:' + err.message);
-    } 
-    else
-        console.log('Database "' + database.db.databaseName + '" is up...'); 
-});
+if(process.env.NODE_ENV !== 'test'){
+    database.connectToDatabase(DATABASE, (err) => {
+        if(err){
+            console.log('Database is not up...')
+            console.error('Error:' + err.message);
+        } 
+        else
+            console.log('Database "' + database.db.databaseName + '" is up...'); 
+    });
+}
 
 app.set('view engine', 'pug');
 
