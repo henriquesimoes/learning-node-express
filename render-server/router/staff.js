@@ -9,7 +9,8 @@ let router = express.Router();
 const API_URL = 'http://' + config.get('api.host') + ':' + config.get('api.port');
 
 router.get('/', (req, res) => {
-    request.get(API_URL + '/staff', (err, response, body) => {
+    let query = req.query.q;
+    request.get(API_URL + `/staff?q=${query}`, (err, response, body) => {
         if(err) {
             console.error(err);
             res.send('API is not responding...');
@@ -29,7 +30,7 @@ router.route('/insert')
             phone: req.body.phone,
             email: req.body.email
         };
-        request.post(API_URL + '/staff/insert', {
+        request.post(API_URL + '/staff', {
             form: staff
         }, (err, response, body) => {
             if(err){
@@ -45,7 +46,7 @@ router.route('/insert')
 router.route('/edit/:id')
     .get((req, res) => {
         let id = req.params.id;
-        request.get(API_URL + '/staff/edit/' + id, (err, response, body) => {
+        request.get(API_URL + '/staff/' + id, (err, response, body) => {
             if(err){
                 console.error(err);
                 res.sendStatus(404);
@@ -63,7 +64,7 @@ router.route('/edit/:id')
             salary: parseFloat(req.body.salary),
             email: req.body.email
         };
-        request.post(API_URL + '/staff/edit/' + staff._id,{
+        request.put(API_URL + '/staff/' + staff._id,{
                 form: {
                     id: staff._id,
                     name: staff.name,
@@ -84,7 +85,7 @@ router.route('/edit/:id')
 
 router.get('/delete/:id', (req, res) => {
     let id = req.params.id;
-    request.get(API_URL + '/staff/delete/' + id, (err, response, body) => {
+    request.delete(API_URL + '/staff/' + id, (err, response, body) => {
         if(err){
             console.error(err);
             res.send(404);

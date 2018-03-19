@@ -27,7 +27,7 @@ app.set('view engine', 'pug');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.use('/staff', staff.router);
+app.use('/staff', staff);
 
 app.listen(PORT, HOST, (err) => {
     if(err) throw err;

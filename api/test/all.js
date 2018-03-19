@@ -47,10 +47,10 @@ describe('Staffs', () => {
                 });
         });
     });
-    describe('POST staff/insert', () => {
+    describe('POST staff/', () => {
         it('should insert a staff into database', (done) => {
             chai.request(server)
-                .post('/staff/insert')
+                .post('/staff')
                 .send(staffTest)
                 .end((err, res) => {
                     if(err) done(err);
@@ -84,10 +84,10 @@ describe('Staffs', () => {
         });
     });
 
-    describe('GET staff/edit/:id', () => {
+    describe('PUT staff/:id', () => {
         it('should list a SINGLE staff to be edited', (done) => {
             chai.request(server)
-                .get('/staff/edit/' + staffTest._id)
+                .get('/staff/' + staffTest._id)
                 .end((err, res) => {
                     if(err) throw done(err);
                     res.should.have.status(200);
@@ -109,7 +109,7 @@ describe('Staffs', () => {
         });
         it('should receive edited staff', (done) => {
             chai.request(server)
-                .post('/staff/edit/' + staffTest._id)
+                .put('/staff/' + staffTest._id)
                 .send({
                     id: staffTest._id,
                     name: staffTest.name,
@@ -125,7 +125,7 @@ describe('Staffs', () => {
         });
         it('should return edited staff', (done) => {
             chai.request(server)
-                .get('/staff/edit/' + staffTest._id)
+                .get('/staff/' + staffTest._id)
                 .end((err, res) => {
                     if(err) throw done(err);
                     res.should.have.status(200);
@@ -146,10 +146,10 @@ describe('Staffs', () => {
                 });
         });
     });
-    describe('GET delete/:id', () => {
+    describe('DELETE staff/:id', () => {
         it('should receive delete request', (done) => {
             chai.request(server)
-                .get('/staff/delete/' + staffTest._id)
+                .delete('/staff/' + staffTest._id)
                 .end((err, res) => {
                     res.should.be.a('object');
                     done();
@@ -157,7 +157,7 @@ describe('Staffs', () => {
         });
         it('should have deleted the staff', (done) => {
             chai.request(server)
-                .get('/staff/edit/' + staffTest._id)
+                .get('/staff/' + staffTest._id)
                 .end((err, res) => {
                     if(err) done(err);
                     res.should.have.status(200);
