@@ -26,15 +26,12 @@ app.set('view engine', 'pug');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.all('/', (req, res) => {
-    res.render('home/home', {title: 'Homepage'});
-});
 
 app.use('/staff', staff.router);
 
 app.listen(PORT, HOST, (err) => {
     if(err) throw err;
-    console.log(`Running on http//${HOST}:${PORT}`);
+    console.log(`Running API on http://${HOST}:${PORT}`);
 });
 
 module.exports = app;

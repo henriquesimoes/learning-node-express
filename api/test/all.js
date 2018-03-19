@@ -41,12 +41,8 @@ describe('Staffs', () => {
                 .end((err, res) => {
                     if(err) done(err);
                     res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('title');
-                    res.body.title.should.be.a('string');
-                    res.body.should.have.property('staffs');
-                    res.body.staffs.should.be.a('array');
-                    res.body.staffs.length.should.be.eql(0);
+                    res.body.should.be.a('array');
+                    res.body.length.should.be.eql(0);
                     done();
                 });
         });
@@ -58,7 +54,8 @@ describe('Staffs', () => {
                 .send(staffTest)
                 .end((err, res) => {
                     if(err) done(err);
-                    res.should.be.redirect;
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
                     done();
                 });
         });
@@ -68,24 +65,20 @@ describe('Staffs', () => {
                 .end((err, res) => {
                     if(err) done(err);
                     res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('title');
-                    res.body.title.should.be.a('string');
-                    res.body.should.have.property('staffs');
-                    res.body.staffs.should.be.a("array");
-                    res.body.staffs.length.should.be.eql(1);
-                    res.body.staffs[0].should.have.property('_id');
-                    staffTest._id = res.body.staffs[0]._id;
-                    res.body.staffs[0].should.have.property('name');
-                    res.body.staffs[0].name.should.be.equal(staffTest.name);
-                    res.body.staffs[0].should.have.property('salary');
-                    res.body.staffs[0].salary.should.be.a('number');
-                    res.body.staffs[0].salary.should.be.equal(staffTest.salary);
-                    res.body.staffs[0].should.have.property('phone');
-                    res.body.staffs[0].phone.should.be.equal(staffTest.phone);
-                    res.body.staffs[0].should.have.property('email');
-                    res.body.staffs[0].email.should.be.a('string');
-                    res.body.staffs[0].email.should.be.equal(staffTest.email);
+                    res.body.should.be.a("array");
+                    res.body.length.should.be.eql(1);
+                    res.body[0].should.have.property('_id');
+                    staffTest._id = res.body[0]._id;
+                    res.body[0].should.have.property('name');
+                    res.body[0].name.should.be.equal(staffTest.name);
+                    res.body[0].should.have.property('salary');
+                    res.body[0].salary.should.be.a('number');
+                    res.body[0].salary.should.be.equal(staffTest.salary);
+                    res.body[0].should.have.property('phone');
+                    res.body[0].phone.should.be.equal(staffTest.phone);
+                    res.body[0].should.have.property('email');
+                    res.body[0].email.should.be.a('string');
+                    res.body[0].email.should.be.equal(staffTest.email);
                     done();
                 });
         });
@@ -99,22 +92,18 @@ describe('Staffs', () => {
                     if(err) throw done(err);
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    res.body.should.have.property('title');
-                    res.body.title.should.be.a('string');
-                    res.body.should.have.property('staff');
-                    res.body.staff.should.be.a('object');
-                    res.body.staff.should.have.property('_id');
-                    res.body.staff._id.should.be.equal(staffTest._id);
-                    res.body.staff.should.have.property('name');
-                    res.body.staff.name.should.be.equal(staffTest.name);
-                    res.body.staff.should.have.property('salary');
-                    res.body.staff.salary.should.be.a('number');
-                    res.body.staff.salary.should.be.equal(staffTest.salary);
-                    res.body.staff.should.have.property('phone');
-                    res.body.staff.phone.should.be.equal(staffTest.phone);
-                    res.body.staff.should.have.property('email');
-                    res.body.staff.email.should.be.a('string');
-                    res.body.staff.email.should.be.equal(staffTest.email);
+                    res.body.should.have.property('_id');
+                    res.body._id.should.be.equal(staffTest._id);
+                    res.body.should.have.property('name');
+                    res.body.name.should.be.equal(staffTest.name);
+                    res.body.should.have.property('salary');
+                    res.body.salary.should.be.a('number');
+                    res.body.salary.should.be.equal(staffTest.salary);
+                    res.body.should.have.property('phone');
+                    res.body.phone.should.be.equal(staffTest.phone);
+                    res.body.should.have.property('email');
+                    res.body.email.should.be.a('string');
+                    res.body.email.should.be.equal(staffTest.email);
                     done();
                 });
         });
@@ -130,7 +119,7 @@ describe('Staffs', () => {
                 })
                 .end((err, res) => {
                     if(err) done(err);
-                    res.should.redirect;
+                    res.should.be.a('object');
                     done();
                 });
         });
@@ -141,22 +130,18 @@ describe('Staffs', () => {
                     if(err) throw done(err);
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    res.body.should.have.property('title');
-                    res.body.title.should.be.a('string');
-                    res.body.should.have.property('staff');
-                    res.body.staff.should.be.a('object');
-                    res.body.staff.should.have.property('_id');
-                    res.body.staff._id.should.be.equal(staffTest._id);
-                    res.body.staff.should.have.property('name');
-                    res.body.staff.name.should.be.equal(staffTest.name);
-                    res.body.staff.should.have.property('salary');
-                    res.body.staff.salary.should.be.a('number');
-                    res.body.staff.salary.should.be.equal(staffTest.salary + 200);
-                    res.body.staff.should.have.property('phone');
-                    res.body.staff.phone.should.be.equal(staffTest.phone);
-                    res.body.staff.should.have.property('email');
-                    res.body.staff.email.should.be.a('string');
-                    res.body.staff.email.should.be.equal(staffTest.email);
+                    res.body.should.have.property('_id');
+                    res.body._id.should.be.equal(staffTest._id);
+                    res.body.should.have.property('name');
+                    res.body.name.should.be.equal(staffTest.name);
+                    res.body.should.have.property('salary');
+                    res.body.salary.should.be.a('number');
+                    res.body.salary.should.be.equal(staffTest.salary + 200);
+                    res.body.should.have.property('phone');
+                    res.body.phone.should.be.equal(staffTest.phone);
+                    res.body.should.have.property('email');
+                    res.body.email.should.be.a('string');
+                    res.body.email.should.be.equal(staffTest.email);
                     done(); 
                 });
         });
@@ -166,7 +151,7 @@ describe('Staffs', () => {
             chai.request(server)
                 .get('/staff/delete/' + staffTest._id)
                 .end((err, res) => {
-                    res.should.redirect;
+                    res.should.be.a('object');
                     done();
                 });
         });
@@ -176,11 +161,10 @@ describe('Staffs', () => {
                 .end((err, res) => {
                     if(err) done(err);
                     res.should.have.status(200);
-                    res.body.should.have.property('title');
-                    res.body.title.should.be.a('string');
-                    res.body.should.not.have.property('staff');
+                    res.body.should.have.property('message');
+                    res.body.message.should.be.equal('not found');
                     done();
-                })
+                });
         });
     });
 });
