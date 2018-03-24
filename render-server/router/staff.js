@@ -9,7 +9,7 @@ let router = express.Router();
 const API_URL = 'http://' + config.get('api.host') + ':' + config.get('api.port');
 
 router.get('/', (req, res) => {
-    let query = req.query.q;
+    let query = req.query.q || '';
     request.get(API_URL + `/staff?q=${query}`, (err, response, body) => {
         if(err) {
             console.error(err);
