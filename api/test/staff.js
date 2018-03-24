@@ -2,7 +2,7 @@ const chai = require("chai");
 const should = chai.should();
 const config = require("config");
 const database = require("../lib/database");
-const server = require("../server");
+const app = require("../app");
 const chaiHttp = require("chai-http");
 
 var staffTest = {
@@ -14,29 +14,20 @@ var staffTest = {
 }
 
 chai.use(chaiHttp);
-describe('Database Connection', () => {
-    it('should connect to mongodb database', (done) => {
-        database.connectToDatabase(config.get('db.name'), (err) => {
-            if(err) done(err);
-            database.db.should.be.a('object');
-            database.db.should.have.property('collection');
-            database.db.should.have.property('databaseName');
-            database.db.databaseName.should.be.equal(config.get('db.name'));
-            done();
-        });
 
-    });
-});
 describe('Staffs', () => {
     before((done) => {
-        database.db.collection('staff').deleteMany({}, (err, obj) => {
-            if(err) throw done(err);
-            done();
+        database.connectToDatabase(config.get('db.name'), (err) => {
+            if(err) done(err);
+            database.db.collection('staff').deleteMany({}, (err, obj) => {
+                if(err) throw done(err);
+                done();
+            });
         });
     });
     describe('GET staff/', () => {
         it('should list NO staff', (done) => {
-            chai.request(server)
+            chai.request(app)
                 .get('/staff')
                 .end((err, res) => {
                     if(err) done(err);
@@ -49,7 +40,7 @@ describe('Staffs', () => {
     });
     describe('POST staff/', () => {
         it('should insert a staff into database', (done) => {
-            chai.request(server)
+            chai.request(app)
                 .post('/staff')
                 .send(staffTest)
                 .end((err, res) => {
@@ -60,7 +51,7 @@ describe('Staffs', () => {
                 });
         });
         it('should list a SINGLE staff after insertion', (done) => {
-            chai.request(server)
+            chai.request(app)
                 .get('/staff')
                 .end((err, res) => {
                     if(err) done(err);
@@ -86,7 +77,7 @@ describe('Staffs', () => {
 
     describe('PUT staff/:id', () => {
         it('should list a SINGLE staff to be edited', (done) => {
-            chai.request(server)
+            chai.request(app)
                 .get('/staff/' + staffTest._id)
                 .end((err, res) => {
                     if(err) throw done(err);
@@ -108,7 +99,7 @@ describe('Staffs', () => {
                 });
         });
         it('should receive edited staff', (done) => {
-            chai.request(server)
+            chai.request(app)
                 .put('/staff/' + staffTest._id)
                 .send({
                     id: staffTest._id,
@@ -124,7 +115,7 @@ describe('Staffs', () => {
                 });
         });
         it('should return edited staff', (done) => {
-            chai.request(server)
+            chai.request(app)
                 .get('/staff/' + staffTest._id)
                 .end((err, res) => {
                     if(err) throw done(err);
@@ -148,7 +139,7 @@ describe('Staffs', () => {
     });
     describe('DELETE staff/:id', () => {
         it('should receive delete request', (done) => {
-            chai.request(server)
+            chai.request(app)
                 .delete('/staff/' + staffTest._id)
                 .end((err, res) => {
                     res.should.be.a('object');
@@ -156,7 +147,7 @@ describe('Staffs', () => {
                 });
         });
         it('should have deleted the staff', (done) => {
-            chai.request(server)
+            chai.request(app)
                 .get('/staff/' + staffTest._id)
                 .end((err, res) => {
                     if(err) done(err);
