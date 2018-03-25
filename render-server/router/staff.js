@@ -24,14 +24,8 @@ router.route('/insert')
         res.render('staff/insert', {title: 'Insert new Staff'});
     })
     .post((req, res) => {
-        let staff = {
-            name: req.body.name,
-            salary: req.body.salary,
-            phone: req.body.phone,
-            email: req.body.email
-        };
         request.post(API_URL + '/staff', {
-            form: staff
+            form: req.body
         }, (err, response, body) => {
             if(err){
                 console.error(err);
@@ -57,21 +51,8 @@ router.route('/edit/:id')
         });
     })
     .post((req, res) => {
-        let staff = {
-            _id: req.body.id,
-            name: req.body.name,
-            phone: req.body.phone,
-            salary: parseFloat(req.body.salary),
-            email: req.body.email
-        };
-        request.put(API_URL + '/staff/' + staff._id,{
-                form: {
-                    id: staff._id,
-                    name: staff.name,
-                    phone: staff.phone,
-                    salary: staff.salary,
-                    email: staff.email
-                }
+        request.put(API_URL + '/staff/' + req.body.id,{
+                form: req.body
             }, (err, response, body) => {
                 if(err){
                     console.error(err);
