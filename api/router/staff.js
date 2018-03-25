@@ -2,6 +2,7 @@
 const express = require('express');
 const Database = require('../lib/database');
 const config = require("config");
+const Staff = require("../model/staff");
 
 let router = express.Router();
 
@@ -15,12 +16,8 @@ router.route('/')
     .post((req, res) => {
         Database.db.createCollection('staff', (err, db) => {
             if(err) throw err;
-            db.insertOne({
-                name: req.body.name, 
-                salary: parseInt(req.body.salary),
-                phone: req.body.phone,
-                email: req.body.email
-            }, (err, result) =>{
+            let staff = new Staff(req.body);
+            db.insertOne(staff.insertFormat, (err, result) =>{
                 if(err) throw err;
                 res.json(result);
             });
@@ -29,8 +26,9 @@ router.route('/')
 
 router.route('/:id')
     .get((req, res) => {
+        let staff = new Staff(req.params);
         Database.db.collection('staff').find(
-            {_id: Database.createObjectID(req.params.id)}
+            {_id: staff.objectId}
         ).toArray((err, data) => {
             if(err) throw err;
             if(data.length == 0){
@@ -42,20 +40,17 @@ router.route('/:id')
         });
     })
     .delete((req, res) => {
-        Database.db.collection('staff').deleteOne({_id: Database.createObjectID(req.params.id)}, (err, obj) => {
+        let staff = new Staff(req.params);
+        Database.db.collection('staff').deleteOne({_id: staff.objectId}, (err, obj) => {
             if(err) throw err;
             res.json(obj);
         });
     })
     .put((req, res) => {
+        let staff = new Staff(req.body);
         Database.db.collection('staff').updateOne(
-            {_id: Database.createObjectID(req.body.id)},
-            { $set: {
-                name: req.body.name, 
-                email: req.body.email, 
-                phone: req.body.phone, 
-                salary: req.body.salary}
-            },
+            {_id: staff.objectId},
+            { $set: staff.updateFormat},
             (err, result) => {
                 if(err) throw err;
                 res.json(result);
