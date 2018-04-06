@@ -2,13 +2,13 @@ extends ../layout.pug
 
 block content
     form(method="post", action= "insert")
-        p: label Nome:
-            input(name="name", required)
-        p: label Salary:
-            input(name="salary", required)
-        p: label Phone:
-            input(name="phone", required)
-        p: label Email:
-            input(name="email", required)
-        button(type="submit") Submit
+        .form-group: label Nome:
+            input.form-control(name="name", required)
+        .form-group: label Salary:
+            input.form-control(name="salary", required)
+        .form-group: label Phone:
+            input.form-control(name="phone", required)
+        .form-group: label Email:
+            input.form-control(name="email", required)
+        button.btn.btn-primary(type="submit") Submit
     p: a(href="http://localhost:8080/staff") Voltar

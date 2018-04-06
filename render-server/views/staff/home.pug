@@ -1,18 +1,19 @@
 extends ../layout.pug
 
 block content
-    h1 Staffs
-    form(method="get", action='/staff')
-        input(name="q")
-        button(type="submit") Search
+    .jumbotron.text-center
+        h1 Staffs
+    form.form-inline(method="get", action='/staff')
+        input.form-control(name="q")
+        button.btn.btn-primary(type="submit") Search
     if staffs.length != 0
-        table(border)
+        table.table.table-striped.table-bordered(border)
             tr
-                th Name
-                th Salary
-                th Phone
-                th Email
-                th(colspan=2) Action
+                th(scope="col") Name
+                th(scope="col") Salary
+                th(scope="col") Phone
+                th(scope="col") Email
+                th(scope="col", colspan=2) Action
             each staff in staffs
                 tr
                     td= staff.name
