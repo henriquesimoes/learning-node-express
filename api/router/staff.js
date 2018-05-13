@@ -3,6 +3,7 @@ const express = require('express');
 const Database = require('../lib/database');
 const config = require("config");
 const Staff = require("../model/staff");
+const userController = require("../controller/user");
 
 let router = express.Router();
 
