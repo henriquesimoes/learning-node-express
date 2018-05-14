@@ -5,7 +5,10 @@ const Database = require('../lib/database');
 class Staff {
     constructor(staff) {
         if(staff !== undefined){
-            this.id = staff.id;
+            this.id = staff._id;
+            if(staff.id !== undefined){
+                this.id = staff.id;
+            }
             this.name = staff.name;
             this.email = staff.email;
             this.phone = staff.phone;

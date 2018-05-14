@@ -3,55 +3,47 @@ const express = require('express');
 const Database = require('../lib/database');
 const config = require("config");
 const Staff = require("../model/staff");
-const userController = require("../controller/user");
+const controller = require("../controller/staff");
 
 let router = express.Router();
 
 router.route('/')
     .get((req, res) => {
-        Database.db.collection('staff').find({name: new RegExp(req.query.q, "ig")}).toArray((err, data) => {
+        controller.retrieveStaffs({name: new RegExp(req.query.q, "ig")}, (err, staffs) => {
             if(err) throw err;
-            res.json(data);
+            res.json(staffs);
         });
     })
     .post((req, res) => {
-        Database.db.createCollection('staff', (err, db) => {
+        controller.insertStaff(req.body, (err, result) => {
             if(err) throw err;
-            let staff = new Staff(req.body);
-            db.insertOne(staff.insertFormat, (err, result) =>{
-                if(err) throw err;
-                res.json(result);
-            });
-        });
+            res.json(result);
+        })
     })
 
 router.route('/:id')
     .get((req, res) => {
         let staff = new Staff(req.params);
-        Database.db.collection('staff').find(
-            {_id: staff.objectId}
-        ).toArray((err, data) => {
+        controller.retrieveStaffs({_id: staff.objectId}, (err, staff) => {
             if(err) throw err;
-            if(data.length == 0){
+            if(staff.length === 0){
                 res.json({message: 'not found'})
             }
             else {
-                res.json(data[0]);
+                res.json(staff[0]);
             }
         });
     })
     .delete((req, res) => {
         let staff = new Staff(req.params);
-        Database.db.collection('staff').deleteOne({_id: staff.objectId}, (err, obj) => {
+        controller.deleteStaff({_id: staff.objectId}, (err, result) => {
             if(err) throw err;
-            res.json(obj);
+            res.json(result);
         });
     })
     .put((req, res) => {
         let staff = new Staff(req.body);
-        Database.db.collection('staff').updateOne(
-            {_id: staff.objectId},
-            { $set: staff.updateFormat},
+        controller.updateStaff({_id: staff.objectId}, staff.updateFormat,
             (err, result) => {
                 if(err) throw err;
                 res.json(result);
