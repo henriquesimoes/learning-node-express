@@ -5,7 +5,7 @@ const Database = require("../lib/database");
 class User {
     constructor(user) {
         if(user !== undefined){
-            this._id = user._id;
+            this.id = user._id;
             this.name = user.name;
             this.email = user.email;
             this.password = user.password;
