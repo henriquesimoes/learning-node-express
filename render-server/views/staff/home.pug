@@ -20,6 +20,6 @@ block content
                     td= staff.salary
                     td= staff.phone
                     td= staff.email
-                    td: a(href="http://localhost:8080/staff/delete/" + staff._id) Delete
-                    td: a(href="http://localhost:8080/staff/edit/" + staff._id) Edit
+                    td: a(href="http://localhost:8080/staff/delete/" + staff.id) Delete
+                    td: a(href="http://localhost:8080/staff/edit/" + staff.id) Edit
     a(href="http://localhost:8080/staff/insert") Adicionar novo registro
