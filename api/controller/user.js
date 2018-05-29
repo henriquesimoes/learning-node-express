@@ -24,6 +24,9 @@ function insertUser (userData, done) {
  * @param {fn} done Callback function
  */
 function deleteUser (filter, done) {
+  if (filter && filter._id) {
+    filter._id = User.objectId(filter._id);
+  }
   Database.db.collection(COLLECTION_NAME).deleteOne(filter, (err, result) => {
     if (err) return done(err);
     done(null, result);
@@ -37,6 +40,9 @@ function deleteUser (filter, done) {
  */
 function updateUser (filter, userData, done) {
   let user = new User(userData);
+  if (filter && filter._id) {
+    filter._id = User.objectId(filter._id);
+  }
   Database.db.collection(COLLECTION_NAME)
     .updateOne(filter, {$set: user.updateFormat}, (err, result) => {
       if (err) return done(err);

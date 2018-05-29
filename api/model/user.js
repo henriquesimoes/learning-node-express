@@ -70,7 +70,7 @@ class User {
   /**
    *
    * @param {int} id
-   * @return {ObjectID}
+   * @return {ObjectID} MongoDB ObjectID object with requested id
    */
   static objectId (id) {
     return Database.createObjectID(id);

@@ -25,12 +25,20 @@ class Staff {
    * Returns the staff's data in the insertion format
    */
   get insertFormat () {
-    return {
-      name: this.name,
-      phone: this.phone,
-      email: this.email,
-      salary: this.salary
-    };
+    let staff = {};
+    if (this.name !== undefined) {
+      staff.name = this.name;
+    }
+    if (this.email !== undefined) {
+      staff.email = this.email;
+    }
+    if (this.phone !== undefined) {
+      staff.phone = this.phone;
+    }
+    if (this.salary !== undefined) {
+      staff.salary = this.salary;
+    }
+    return staff;
   }
 
   /**
