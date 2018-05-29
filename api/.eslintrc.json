@@ -1,0 +1,7 @@
+{
+    "extends": ["eslint:recommended", "google", "standard"],
+    "rules": {
+        "semi":["error", "always"],
+        "linebreak-style": ["error", "windows"]
+    }
+}
