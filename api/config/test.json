@@ -1,5 +1,6 @@
 {
-    "db": {
-        "name": "plantio-test"
-    }
+  "db": {
+    "host": "localhost",
+    "name": "plantio-test"
+  }
 }

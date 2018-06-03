@@ -1,0 +1,56 @@
+version: "3"
+services:
+  api:
+    image: api
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - mongo
+    ports:
+      - "8888:8888"
+    networks:
+      - webnet
+  render-server:
+    image: render-server
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+    networks: 
+      - webnet
+  mongo:
+    image: mongo
+    volumes:
+      - /home/docker/data:/data
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks: 
+      - webnet
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks: 
+      - webnet
+networks:
+  webnet:

@@ -1,12 +1,12 @@
 {
-    "db": {
-        "driver": "mongodb",
-        "host": "localhost",
-        "port": 27017,
-        "name": "plantio"
-    },
-    "server": {
-        "host": "localhost",
-        "port": 8888
-    }
+  "db": {
+    "driver": "mongodb",
+    "host": "mongo",
+    "port": 27017,
+    "name": "plantio"
+  },
+  "server": {
+    "host": "localhost",
+    "port": 8888
+  }
 }

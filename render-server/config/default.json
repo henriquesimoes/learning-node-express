@@ -1,6 +1,6 @@
 {
-    "api": {
-        "host": "localhost",
-        "port": "8888"
-    }
+  "api": {
+    "host": "api",
+    "port": "8888"
+  }
 }

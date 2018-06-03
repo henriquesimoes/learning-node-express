@@ -15,7 +15,9 @@ router.get('/', (req, res) => {
             console.error(err);
             res.send('API is not responding...');
         }
-        res.render('staff/home', {title: 'Staff', staffs: JSON.parse(body)});
+        else{
+            res.render('staff/home', {title: 'Staff', staffs: JSON.parse(body)});
+        }
     });
 });
 

@@ -3,8 +3,8 @@
 const express = require('express');
 const app = express();
 const staff = require('./router/staff');
-const HOST = 'localhost';
-const PORT = '8080';
+const HOST = '0.0.0.0';
+const PORT = process.env.PORT || 80;
 
 app.set('view engine', 'pug');
 
