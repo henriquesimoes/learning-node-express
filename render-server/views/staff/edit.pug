@@ -2,7 +2,7 @@ extends ../layout.pug
 
 block content
     form(method="post", action="edit")
-        input(name="id", value= staff.id, required, hidden)
+        input(name="id", value= staff._id, required, hidden)
         .form-group: label Nome:
             input.form-control(name="name", value= staff.name, required)
         .form-group: label Salary:

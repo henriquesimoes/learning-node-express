@@ -20,6 +20,6 @@ block content
                     td= staff.salary
                     td= staff.phone
                     td= staff.email
-                    td: a(href="staff/delete/" + staff.id) Delete
-                    td: a(href="staff/edit/" + staff.id) Edit
-    a(href="staff/insert") Adicionar novo registro
+                    td: a(href="/staff/delete/" + staff._id) Delete
+                    td: a(href="/staff/edit/" + staff._id) Edit
+    a(href="/staff/insert") Adicionar novo registro

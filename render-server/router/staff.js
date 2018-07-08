@@ -10,7 +10,7 @@ const API_URL = 'http://' + config.get('api.host') + ':' + config.get('api.port'
 
 router.get('/', (req, res) => {
     let query = req.query.q || '';
-    request.get(API_URL + `/staff?q=${query}`, (err, response, body) => {
+    request.get(API_URL + `/staffs?q=${query}`, (err, response, body) => {
         if(err) {
             console.error(err);
             res.send('API is not responding...');
@@ -26,7 +26,7 @@ router.route('/insert')
         res.render('staff/insert', {title: 'Insert new Staff'});
     })
     .post((req, res) => {
-        request.post(API_URL + '/staff', {
+        request.post(API_URL + '/staffs', {
             form: req.body
         }, (err, response, body) => {
             if(err){
@@ -42,7 +42,7 @@ router.route('/insert')
 router.route('/edit/:id')
     .get((req, res) => {
         let id = req.params.id;
-        request.get(API_URL + '/staff/' + id, (err, response, body) => {
+        request.get(API_URL + '/staffs/' + id, (err, response, body) => {
             if(err){
                 console.error(err);
                 res.sendStatus(404);
@@ -53,7 +53,7 @@ router.route('/edit/:id')
         });
     })
     .post((req, res) => {
-        request.put(API_URL + '/staff/' + req.body.id,{
+        request.put(API_URL + '/staffs/' + req.body.id,{
                 form: req.body
             }, (err, response, body) => {
                 if(err){
@@ -68,10 +68,10 @@ router.route('/edit/:id')
 
 router.get('/delete/:id', (req, res) => {
     let id = req.params.id;
-    request.delete(API_URL + '/staff/' + id, (err, response, body) => {
+    request.delete(API_URL + '/staffs/' + id, (err, response, body) => {
         if(err){
             console.error(err);
-            res.send(404);
+            res.sendStatus(404);
         }
         else {
             res.redirect('/staff');
