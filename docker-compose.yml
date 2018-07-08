@@ -35,7 +35,7 @@ services:
   mongo:
     image: mongo
     volumes:
-      - /home/docker/data:/data
+      - mongo-data:/data
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -52,5 +52,7 @@ services:
         constraints: [node.role == manager]
     networks: 
       - webnet
+volumes:
+  mongo-data:
 networks:
   webnet:
