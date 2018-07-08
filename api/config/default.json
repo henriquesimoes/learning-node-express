@@ -3,7 +3,7 @@
     "driver": "mongodb",
     "host": "mongo",
     "port": 27017,
-    "name": "plantio"
+    "name": "node-express"
   },
   "server": {
     "host": "localhost",
