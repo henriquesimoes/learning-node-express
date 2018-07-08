@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 // app.use(passport.authenticate('basic', {session: false}));
 
-app.use('/staff', staff);
-app.use('/user', user);
+app.use('/staffs', staff);
+app.use('/users', user);
 
 module.exports = app;
