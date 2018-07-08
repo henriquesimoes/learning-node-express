@@ -1,62 +1,67 @@
 'use strict';
 
-const Database = require('../lib/database');
 const Staff = require('../model/staff');
-
-const COLLECTION_NAME = 'staff';
 
 /**
  *
  * @param {*} staffData
- * @param {fn} done
  */
-function insertStaff (staffData, done) {
+async function insertStaff (staffData) {
   let staff = new Staff(staffData);
-  Database.db.collection(COLLECTION_NAME)
-    .insertOne(staff.insertFormat, (err, result) => {
-      if (err) return done(err);
-      done(null, result);
-    });
+  await staff.save();
+  return staff;
 }
 /**
  *
- * @param {Object} filter
- * @param {fn} done
+ * @param {Number} id
+ * @return {Staff} Deleted staff
  */
-function deleteStaff (filter, done) {
-  Database.db.collection(COLLECTION_NAME)
-    .deleteOne(filter, (err, result) => {
-      if (err) return done(err);
-      done(null, result);
-    });
+function deleteStaffById (id) {
+  return Staff.findByIdAndRemove(id);
 }
 
 /**
  *
  * @param {Object} filter
  * @param {Object} staffData
- * @param {fn} done
+ * @return {Staff} Updated staff
  */
-function updateStaff (filter, staffData, done) {
-  Database.db.collection(COLLECTION_NAME)
-    .updateOne(filter, {$set: staffData}, (err, output) => {
-      if (err) return done(err);
-      done(null, output.result);
-    });
+function updateStaff (filter, staffData) {
+  return Staff.updateOne(filter, {$set: staffData});
+}
+
+/**
+ *
+ * @param {Number} id
+ * @param {Object} staffData
+ * @return {Staff} Updated staff
+ */
+function updateStaffById (id, staffData) {
+  return Staff.findByIdAndUpdate(id, {$set: staffData}, {new: true});
 }
 /**
  *
  * @param {Object} filter Filter used to retrieve staffs
- * @param {fn} done Callback function
+ * @return {Staff} Search result
  */
-function retrieveStaffs (filter, done) {
-  Database.db.collection(COLLECTION_NAME).find(filter).toArray((err, data) => {
-    if (err) return done(err);
-    data.forEach((staffData, index, staffs) => {
-      staffs[index] = new Staff(staffData);
-    });
-    done(null, data);
-  });
+function retrieveStaffs (filter) {
+  return Staff.find(filter);
 }
 
-module.exports = {insertStaff, updateStaff, deleteStaff, retrieveStaffs};
+/**
+ * Find a specific staff by his/her id
+ * @param {Number} id
+ * @return {Staff} Search result
+ */
+function findStaffById (id) {
+  return Staff.findById(id);
+}
+
+module.exports = {
+  insertStaff,
+  updateStaff,
+  updateStaffById,
+  deleteStaffById,
+  retrieveStaffs,
+  findStaffById
+};

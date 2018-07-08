@@ -1,71 +1,56 @@
 'use strict';
 
-const Database = require('../lib/database');
 const User = require('../model/user');
 
-const COLLECTION_NAME = 'user';
-
 /**
- * Insert a new user into the database
+ * Inserts a new user into the database
  * @param {Object} userData User data to be inserted into database
- * @param {fn} done Callback function
+ * @return {User}
  */
-function insertUser (userData, done) {
-  let user = new User(userData);
-  Database.db.collection(COLLECTION_NAME)
-    .insertOne(user.insertFormat, (err, result) => {
-      if (err) return done(err);
-      done(null, result);
-    });
+async function insertUser (userData) {
+  const user = new User(userData);
+  await user.save();
+  return user;
 }
 /**
- * Delete user based on filter
- * @param {Object} filter Filter used to delete user
- * @param {fn} done Callback function
+ * Deletes user by the given id
+ * @param {Number} id
+ * @return {User} Deleted user
  */
-function deleteUser (filter, done) {
-  if (filter && filter._id) {
-    filter._id = User.objectId(filter._id);
-  }
-  Database.db.collection(COLLECTION_NAME).deleteOne(filter, (err, result) => {
-    if (err) return done(err);
-    done(null, result);
-  });
-}
-/**
- * Update filtered user's data
- * @param {Object} filter Filter used to find user
- * @param {Object} userData Updated data
- * @param {fn} done Callback function
- */
-function updateUser (filter, userData, done) {
-  let user = new User(userData);
-  if (filter && filter._id) {
-    filter._id = User.objectId(filter._id);
-  }
-  Database.db.collection(COLLECTION_NAME)
-    .updateOne(filter, {$set: user.updateFormat}, (err, result) => {
-      if (err) return done(err);
-      done(null, result);
-    });
-}
-/**
- * Retrieve users based on the search filter
- * @param {Object} filter Filter used to select users
- * @param {fn} done Callback function
- */
-function retrieveUsers (filter, done) {
-  if (filter && filter._id) {
-    filter._id = User.objectId(filter._id);
-  }
-  Database.db.collection(COLLECTION_NAME).find(filter).toArray((err, data) => {
-    if (err) return done(err);
-    data.forEach((userData, index, users) => {
-      users[index] = new User(userData);
-    });
-    let users = data.length === 1 ? data[0] : data;
-    done(null, users);
-  });
+function deleteUserById (id) {
+  return User.findByIdAndRemove(id);
 }
 
-module.exports = {insertUser, updateUser, deleteUser, retrieveUsers};
+/**
+ * Updates user by the given id
+ * @param {Number} id
+ * @param {Object} userData Updated data
+ * @return {User} Updated user
+ */
+function updateUserById (id, userData) {
+  return User.findByIdAndUpdate(id, userData, {new: true});
+}
+/**
+ * Retrieves users based on the search filter
+ * @param {Object} filter Filter used to select users
+ * @return {User[]} Search result
+ */
+function retrieveUsers (filter) {
+  return User.find(filter);
+}
+/**
+ * Find user by the given id
+ * @param {Number} id
+ * @return {User} Search result
+ */
+function findUserById (id) {
+  return User.findById(id);
+}
+
+module.exports = {
+  insertUser,
+  updateUserById,
+  deleteUserById,
+  retrieveUsers,
+  findUserById
+};

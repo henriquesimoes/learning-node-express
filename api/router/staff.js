@@ -1,52 +1,38 @@
 'use strict';
 const express = require('express');
-const Staff = require('../model/staff');
 const controller = require('../controller/staff');
 
-let router = express.Router();
+const router = express.Router();
 
 router.route('/')
-  .get((req, res) => {
-    controller.retrieveStaffs({
-      name: new RegExp(req.query.q, 'ig')}, (err, staffs) => {
-      if (err) throw err;
-      res.json(staffs);
+  .get(async (req, res) => {
+    const staffs = await controller.retrieveStaffs({
+      name: new RegExp(req.query.q, 'ig')
     });
+    if (!staffs) return res.status(404).send();
+    res.json(staffs);
   })
-  .post((req, res) => {
-    controller.insertStaff(req.body, (err, result) => {
-      if (err) throw err;
-      res.json(result);
-    });
+  .post(async (req, res) => {
+    const staff = await controller.insertStaff(req.body);
+    if (!staff) return res.status(404).send();
+    res.json(staff);
   });
 
 router.route('/:id')
-  .get((req, res) => {
-    let staff = new Staff(req.params);
-    controller.retrieveStaffs({_id: staff.objectId}, (err, staff) => {
-      if (err) throw err;
-      if (staff.length === 0) {
-        res.json({message: 'not found'});
-      } else {
-        res.json(staff[0]);
-      }
-    });
+  .get(async (req, res) => {
+    const staff = await controller.findStaffById(req.params.id);
+    if (!staff) return res.status(404).send();
+    res.json(staff);
   })
-  .delete((req, res) => {
-    let staff = new Staff(req.params);
-    controller.deleteStaff({_id: staff.objectId}, (err, result) => {
-      if (err) throw err;
-      res.json(result);
-    });
+  .delete(async (req, res) => {
+    const staff = await controller.deleteStaffById(req.params.id);
+    if (!staff) return res.status(404).send();
+    res.json(staff);
   })
-  .put((req, res) => {
-    let staff = new Staff(req.body);
-    controller.updateStaff({_id: staff.objectId}, staff.updateFormat,
-      (err, result) => {
-        if (err) throw err;
-        res.json(result);
-      }
-    );
+  .put(async (req, res) => {
+    const staff = await controller.updateStaffById(req.params.id, req.body);
+    if (!staff) return res.status(404).send();
+    res.json(staff);
   });
 
 module.exports = router;

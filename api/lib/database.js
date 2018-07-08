@@ -1,39 +1,26 @@
 'use strict';
 
-const mongodb = require('mongodb');
+const mongoose = require('mongoose');
 const config = require('config');
-
-const MongoClient = mongodb.MongoClient;
 
 const MONGO_URL = config.get('db.driver') + '://' +
     config.get('db.host') + ':' +
     config.get('db.port') + '/';
+
+const defaultDb = config.get('db.name');
+
 /**
- * Class that enables connect to databases
+ * Class that enables connect to MongoDB
  */
 class Database {
   /**
    * Create connection to database and provide it through 'db' variable
-   * @param {string} dbName Database name
-   * @param {fn} callback Callback function
+   * @param {string} [dbName] Database name
    */
-  static connectToDatabase (dbName, callback) {
-    MongoClient.connect(MONGO_URL, (err, db) => {
-      if (err) {
-        callback(err);
-      } else {
-        this.db = db.db(dbName);
-        callback(null);
-      }
-    });
-  }
-  /**
-   * Create an MongoDB ObjectID object
-   * @param {int} id
-   * @return {ObjectID}
-   */
-  static createObjectID (id) {
-    return new mongodb.ObjectID(id);
+  static connectToDatabase (dbName) {
+    dbName = dbName || defaultDb;
+
+    mongoose.connect(MONGO_URL + dbName, {useNewUrlParser: true});
   }
 }
 

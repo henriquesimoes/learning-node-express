@@ -1,80 +1,27 @@
 'use strict';
+const mongoose = require('mongoose');
 
-const Database = require('../lib/database');
-/**
- * Class used to verify user data
- */
-class User {
-  /**
-   *
-   * @param {Object} user Data object used to populate User object
-   */
-  constructor (user) {
-    if (user !== undefined) {
-      this.id = user._id;
-      this.name = user.name;
-      this.email = user.email;
-      this.password = user.password;
-      this.balance = parseFloat(user.balance);
-    }
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    minlength: 2,
+    trim: true,
+    required: true
+  },
+  email: {
+    type: String,
+    unique: true,
+    trim: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  balance: {
+    type: Number,
+    default: 0
   }
+});
 
-  /**
-   * Returns the user's data in the insertion format
-   */
-  get insertFormat () {
-    let user = {};
-    if (this.name !== undefined) {
-      user.name = this.name;
-    }
-    if (this.email !== undefined) {
-      user.email = this.email;
-    }
-    if (this.password !== undefined) {
-      user.password = this.password;
-    }
-    if (this.balance !== undefined) {
-      user.balance = this.balance;
-    }
-    return user;
-  }
-
-  /**
-   * Returns the user's data in the update format
-   */
-  get updateFormat () {
-    let user = {};
-    if (this._id !== undefined) {
-      user._id = this.objectId;
-    }
-    if (this.name !== undefined) {
-      user.name = this.name;
-    }
-    if (this.email !== undefined) {
-      user.email = this.email;
-    }
-    if (this.password !== undefined) {
-      user.password = this.password;
-    }
-    if (this.balance !== undefined) {
-      user.balance = this.balance;
-    }
-    return user;
-  }
-  /**
-   * @return {ObjectID} User id
-   */
-  get objectId () {
-    return Database.createObjectID(this.id);
-  }
-  /**
-   *
-   * @param {int} id
-   * @return {ObjectID} MongoDB ObjectID object with requested id
-   */
-  static objectId (id) {
-    return Database.createObjectID(id);
-  }
-}
-
-module.exports = User;
+module.exports = mongoose.model('User', userSchema);

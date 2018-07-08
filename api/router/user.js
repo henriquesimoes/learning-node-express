@@ -5,37 +5,32 @@ const controller = require('../controller/user');
 const router = express.Router();
 
 router.route('/:id')
-  .get((req, res) => {
-    controller.retrieveUsers({_id: req.params.id}, (err, user) => {
-      if (err) throw err;
-      res.json(user);
-    });
+  .get(async (req, res) => {
+    const user = await controller.findUserById(req.params.id);
+    if (!user) return res.status(404).send();
+    res.json(user);
   })
-  .put((req, res) => {
-    controller.updateUser({_id: req.params.id}, req.body, (err, result) => {
-      if (err) throw err;
-      res.json(result);
-    });
+  .put(async (req, res) => {
+    const user = await controller.updateUserById(req.params.id, req.body);
+    if (!user) return res.status(404).send();
+    res.json(user);
   })
-  .delete((req, res) => {
-    controller.deleteUser({_id: req.params.id}, (err, result) => {
-      if (err) throw err;
-      res.json(result);
-    });
+  .delete(async (req, res) => {
+    const user = await controller.deleteUserById(req.params.id);
+    if (!user) return res.status(404).send();
+    res.json(user);
   });
 
 router.route('/')
-  .get((req, res) => {
-    controller.retrieveUsers({}, (err, users) => {
-      if (err) throw err;
-      res.json(users);
-    });
+  .get(async (req, res) => {
+    const user = await controller.retrieveUsers({});
+    if (!user) return res.status(404).send();
+    res.json(user);
   })
-  .post((req, res) => {
-    controller.insertUser(req.body, (err, result) => {
-      if (err) throw err;
-      res.json(result);
-    });
+  .post(async (req, res) => {
+    const user = await controller.insertUser(req.body);
+    if (!user) return res.status(404).send();
+    res.json(user);
   });
 
 module.exports = router;

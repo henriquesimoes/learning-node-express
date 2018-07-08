@@ -1,78 +1,28 @@
 'use strict';
 
-const Database = require('../lib/database');
-/**
- * Class used to verify staff data
- */
-class Staff {
-  /**
-   *
-   * @param {Object} staff Data object used to populate Staff object
-   */
-  constructor (staff) {
-    if (staff !== undefined) {
-      this.id = staff._id;
-      if (staff.id !== undefined) {
-        this.id = staff.id;
-      }
-      this.name = staff.name;
-      this.email = staff.email;
-      this.phone = staff.phone;
-      this.updateSalary(parseFloat(staff.salary));
-    }
-  }
-  /**
-   * Returns the staff's data in the insertion format
-   */
-  get insertFormat () {
-    let staff = {};
-    if (this.name !== undefined) {
-      staff.name = this.name;
-    }
-    if (this.email !== undefined) {
-      staff.email = this.email;
-    }
-    if (this.phone !== undefined) {
-      staff.phone = this.phone;
-    }
-    if (this.salary !== undefined) {
-      staff.salary = this.salary;
-    }
-    return staff;
-  }
+const mongoose = require('mongoose');
 
-  /**
-   * Returns the staff's data in the update format
-   */
-  get updateFormat () {
-    let staff = {};
-    if (this.name !== undefined) {
-      staff.name = this.name;
-    }
-    if (this.email !== undefined) {
-      staff.email = this.email;
-    }
-    if (this.phone !== undefined) {
-      staff.phone = this.phone;
-    }
-    if (this.salary !== undefined) {
-      staff.salary = this.salary;
-    }
-    return staff;
+const staffSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    minlength: 2,
+    trim: true,
+    required: true
+  },
+  email: {
+    type: String,
+    trim: true,
+    unique: true,
+    required: true
+  },
+  phone: {
+    type: String,
+    required: true
+  },
+  salary: {
+    type: Number,
+    required: true
   }
-  /**
-   * Returns the staff id as an ObjectID object
-   */
-  get objectId () {
-    return Database.createObjectID(this.id);
-  }
-  /**
-   * Update salary value
-   * @param {float} salary New salary value
-   */
-  updateSalary (salary) {
-    this.salary = (salary < 0) ? 0 : salary;
-  }
-}
+});
 
-module.exports = Staff;
+module.exports = mongoose.model('Staff', staffSchema);
