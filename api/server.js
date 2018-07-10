@@ -2,6 +2,7 @@
 
 const config = require('config');
 const app = require('./app');
+const debug = require('debug')('api:startup');
 
 const Database = require('./lib/database');
 
@@ -12,5 +13,5 @@ Database.connectToDatabase();
 
 app.listen(port, host, (err) => {
   if (err) throw err;
-  console.log(`Running API on http://${host}:${port}`);
+  debug(`Running API on http://${host}:${port}`);
 });

@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const config = require('config');
+const debug = require('debug')('api:db');
 
 const MONGO_URL = config.get('db.driver') + '://' +
     config.get('db.host') + ':' +
@@ -14,13 +15,20 @@ const defaultDb = config.get('db.name');
  */
 class Database {
   /**
-   * Create connection to database and provide it through 'db' variable
+   * Creates a connection to database
    * @param {string} [dbName] Database name
    */
-  static connectToDatabase (dbName) {
+  static async connectToDatabase (dbName) {
     dbName = dbName || defaultDb;
 
-    mongoose.connect(MONGO_URL + dbName, {useNewUrlParser: true});
+    mongoose.connect(MONGO_URL + dbName, {useNewUrlParser: true})
+      .then(() => {
+        return debug(`Connected to ${dbName}`);
+      })
+      .catch((err) => {
+        debug(`Error occured when trying to connect to ${dbName}.`);
+        debug('Error: ' + err.message);
+      });
   }
 }
 
