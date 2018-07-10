@@ -1,6 +1,6 @@
 'use strict';
 
-const User = require('../model/user');
+const User = require('./model');
 
 /**
  * Inserts a new user into the database

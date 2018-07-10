@@ -1,7 +1,7 @@
 'use strict';
 
 const config = require('config');
-const app = require('./app');
+const app = require('./lib/app');
 const debug = require('debug')('api:startup');
 
 const Database = require('./lib/database');

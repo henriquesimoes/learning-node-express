@@ -1,6 +1,6 @@
 'use strict';
 
-const Staff = require('../model/staff');
+const Staff = require('./model');
 
 /**
  *

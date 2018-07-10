@@ -4,8 +4,8 @@ const express = require('express');
 const app = express();
 // const passport = require("./lib/auth");
 
-const staff = require('./router/staff');
-const user = require('./router/user');
+const staff = require('./staff').router;
+const user = require('./user').router;
 
 app.set('view engine', 'pug');
 
