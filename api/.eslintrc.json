@@ -5,12 +5,14 @@
         "standard",
         "plugin:node/recommended",
         "plugin:import/recommended",
-        "plugin:promise/recommended"
+        "plugin:promise/recommended",
+        "plugin:jest/recommended"
     ],
     "plugins": [
         "node",
         "promise",
-        "import"
+        "import",
+        "jest"
     ],
     "rules": {
         "semi":["error", "always"],
