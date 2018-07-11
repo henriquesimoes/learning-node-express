@@ -27,7 +27,10 @@ function deleteUserById (id) {
  * @param {Object} userData Updated data
  * @return {User} Updated user
  */
-function updateUserById (id, userData) {
+async function updateUserById (id, userData) {
+  if (userData.password) {
+    userData.password = await User.encrypt(userData.password);
+  }
   return User.findByIdAndUpdate(id, userData, {new: true});
 }
 /**
