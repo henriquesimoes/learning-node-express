@@ -1,6 +1,8 @@
 'use strict';
 const express = require('express');
 const controller = require('./controller');
+const validate = require('../middleware/validate');
+const validator = require('./validator');
 
 const router = express.Router();
 
@@ -10,7 +12,7 @@ router.route('/:id')
     if (!user) return res.status(404).send();
     res.json(user);
   })
-  .put(async (req, res) => {
+  .put(validate(validator.update), async (req, res) => {
     const user = await controller.updateUserById(req.params.id, req.body);
     if (!user) return res.status(404).send();
     res.json(user);
@@ -27,7 +29,7 @@ router.route('/')
     if (!user) return res.status(404).send();
     res.json(user);
   })
-  .post(async (req, res) => {
+  .post(validate(validator.newUser), async (req, res) => {
     const user = await controller.insertUser(req.body);
     if (!user) return res.status(404).send();
     res.json(user);
