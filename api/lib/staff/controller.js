@@ -3,46 +3,51 @@
 const Staff = require('./model');
 
 /**
- *
- * @param {*} staffData
+ * Inserts staff into the database
+ * @param {Object} staffData
+ * @return {Promise<Staff>} Inserted staff returned if resolved
+ * and Error if failed
  */
-async function insertStaff (staffData) {
-  let staff = new Staff(staffData);
-  await staff.save();
-  return staff;
+function insertStaff (staffData) {
+  return new Staff(staffData).save();
 }
 /**
- *
+ * Deletes staff from the database
  * @param {Number} id
- * @return {Staff} Deleted staff
+ * @return {Promise<Staff>} Deleted staff returned if resolved
+ * and Error if failed
  */
 function deleteStaffById (id) {
   return Staff.findByIdAndRemove(id);
 }
 
 /**
- *
+ * Set the given data for all staffs matching the filter
  * @param {Object} filter
  * @param {Object} staffData
- * @return {Staff} Updated staff
+ * @return {Promise<Staff>} Updated staff returned if resolved
+ * and Error if failed
  */
 function updateStaff (filter, staffData) {
   return Staff.updateOne(filter, {$set: staffData});
 }
 
 /**
- *
+ * Set the given data for the staff with the given id
  * @param {Number} id
  * @param {Object} staffData
- * @return {Staff} Updated staff
+ * @return {Promise<Staff>} Updated staff returned if resolved
+ * and Error if failed
  */
 function updateStaffById (id, staffData) {
   return Staff.findByIdAndUpdate(id, {$set: staffData}, {new: true});
 }
+
 /**
- *
+ * Retrieve all staffs matching the filter
  * @param {Object} filter Filter used to retrieve staffs
- * @return {Staff} Search result
+ * @return {Promise<Staff[]>} Search result returned if resolved
+ * and Error if failed
  */
 function retrieveStaffs (filter) {
   return Staff.find(filter);
@@ -51,7 +56,8 @@ function retrieveStaffs (filter) {
 /**
  * Find a specific staff by his/her id
  * @param {Number} id
- * @return {Staff} Search result
+ * @return {Promise<Staff>} Search result returned if resolved
+ * and Error if failed
  */
 function findStaffById (id) {
   return Staff.findById(id);
