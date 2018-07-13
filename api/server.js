@@ -1,9 +1,10 @@
 'use strict';
-
+require('express-async-errors');
 const config = require('config');
-const app = require('./lib/app');
 const debug = require('debug')('api:startup');
 
+require('./startup/handle-errors')();
+const app = require('./lib/app');
 const Database = require('./lib/database');
 
 const port = process.env.PORT || config.get('server.port');
