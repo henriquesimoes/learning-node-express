@@ -30,8 +30,11 @@ router.route('/')
     res.json(user);
   })
   .post(validate(validator.newUser), async (req, res) => {
-    const user = await controller.insertUser(req.body);
-    if (!user) return res.status(404).send();
+    let user = await controller.findUserByEmail(req.body.email);
+    if (user) return res.status(400).send('User already registered');
+
+    user = await controller.insertUser(req.body);
+
     res.json(user);
   });
 

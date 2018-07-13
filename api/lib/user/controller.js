@@ -32,7 +32,7 @@ async function updateUserById (id, userData) {
   if (userData.password) {
     userData.password = await User.encrypt(userData.password);
   }
-  return User.findByIdAndUpdate(id, {$set: {userData}}, {new: true});
+  return User.findByIdAndUpdate(id, {$set: userData}, {new: true});
 }
 /**
  * Retrieves users based on the search filter
@@ -43,6 +43,7 @@ async function updateUserById (id, userData) {
 function retrieveUsers (filter) {
   return User.find(filter);
 }
+
 /**
  * Find user by the given id
  * @param {Number} id
@@ -53,10 +54,21 @@ function findUserById (id) {
   return User.findById(id);
 }
 
+/**
+ * Find user by the given email
+ * @param {Number} email
+ * @return {Promise<User>} Search result if resolved
+ * and Error if failed
+ */
+function findUserByEmail (email) {
+  return User.findOne({email});
+}
+
 module.exports = {
   insertUser,
   updateUserById,
   deleteUserById,
   retrieveUsers,
-  findUserById
+  findUserById,
+  findUserByEmail
 };

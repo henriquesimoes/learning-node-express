@@ -7,7 +7,8 @@ const schema = {
   _id: Joi.objectId(),
   name: Joi.string().min(2).max(20),
   email: Joi.string().email(),
-  password: Joi.string().min(6)
+  password: Joi.string().min(6),
+  balance: Joi.number()
 };
 
 /**
@@ -28,7 +29,8 @@ module.exports.newUser = (user) => {
   return Joi.validate(user, {
     name: schema.name.required(),
     email: schema.email.required(),
-    password: schema.password.required()
+    password: schema.password.required(),
+    balance: schema.balance
   });
 };
 
@@ -44,6 +46,7 @@ module.exports.newUser = (user) => {
  * @param {String} req.name User name
  * @param {String} req.email User's email
  * @param {String} req.password User's password
+ * @param {number} req.balance User's balance
  * @return {Object} Validation result
  */
 module.exports.update = (req) => {
@@ -51,6 +54,7 @@ module.exports.update = (req) => {
     Joi.object().keys({
       name: schema.name,
       email: schema.email,
-      password: schema.password
+      password: schema.password,
+      balance: schema.balance
     }).or(Object.keys(schema)));
 };
