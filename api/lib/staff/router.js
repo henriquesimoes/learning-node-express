@@ -11,12 +11,14 @@ router.route('/')
     const staffs = await controller.retrieveStaffs({
       name: new RegExp(req.query.q, 'ig')
     });
-    if (!staffs) return res.status(404).send();
     res.json(staffs);
   })
   .post(validate(validator.newStaff), async (req, res) => {
-    const staff = await controller.insertStaff(req.body);
-    if (!staff) return res.status(404).send();
+    let staff = await controller.findStaffByEmail(req.body.email);
+    if (staff) return res.status(400).send('Staff already registered');
+
+    staff = await controller.insertStaff(req.body);
+
     res.json(staff);
   });
 

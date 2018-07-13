@@ -12,7 +12,7 @@ const schema = {
     defaultCountry: 'BR',
     format: 'e164'
   }),
-  salary: Joi.number()
+  salary: Joi.number().min(0)
 };
 
 /**
@@ -31,7 +31,7 @@ module.exports.newStaff = (staff) => {
   return Joi.validate(staff, {
     name: schema.name.required(),
     email: schema.email.required(),
-    phone: schema.phone.required(),
+    phone: schema.phone,
     salary: schema.salary.required()
   });
 };
@@ -43,6 +43,7 @@ module.exports.newStaff = (staff) => {
  * - name
  * - email
  * - password
+ * - salary
  *
  * @param {Object} req Request object for updating user
  * @return {Object} Validation result

@@ -29,7 +29,7 @@ function deleteStaffById (id) {
  * and Error if failed
  */
 function updateStaff (filter, staffData) {
-  return Staff.updateOne(filter, {$set: staffData});
+  return Staff.updateOne(filter, {$set: staffData}, {new: true});
 }
 
 /**
@@ -63,11 +63,22 @@ function findStaffById (id) {
   return Staff.findById(id);
 }
 
+/**
+ * Find a specific staff by his/her email
+ * @param {Number} email
+ * @return {Promise<Staff>} Search result returned if resolved
+ * and Error if failed
+ */
+function findStaffByEmail (email) {
+  return Staff.findOne({email});
+}
+
 module.exports = {
   insertStaff,
   updateStaff,
   updateStaffById,
   deleteStaffById,
   retrieveStaffs,
-  findStaffById
+  findStaffById,
+  findStaffByEmail
 };
