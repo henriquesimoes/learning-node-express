@@ -1,18 +1,20 @@
 {
+    "env": {
+        "mocha": true
+    },
     "extends": [
         "eslint:recommended", 
         "google", 
         "standard",
         "plugin:node/recommended",
         "plugin:import/recommended",
-        "plugin:promise/recommended",
-        "plugin:jest/recommended"
+        "plugin:promise/recommended"
     ],
     "plugins": [
         "node",
         "promise",
         "import",
-        "jest"
+        "mocha"
     ],
     "rules": {
         "semi":["error", "always"],
