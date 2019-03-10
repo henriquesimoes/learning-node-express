@@ -4,7 +4,8 @@
   "description": "Test API project",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
+    "nodemon": "nodemon server.js",
     "test": "jest --watchAll --verbose --runInBand"
   },
   "author": "Henrique Simões",
@@ -18,12 +19,14 @@
     "debug": "^4.1.1",
     "express": "^4.16.4",
     "express-async-errors": "^3.1.1",
+    "helmet": "^3.15.1",
     "joi": "^14.3.1",
     "joi-objectid": "^2.0.0",
     "joi-phone-number": "^2.1.1",
     "mongoose": "^5.4.18",
     "passport": "^0.4.0",
-    "passport-http": "^0.3.0"
+    "passport-http": "^0.3.0",
+    "winston": "^2.4.3"
   },
   "devDependencies": {
     "eslint": "^5.15.1",
@@ -37,5 +40,16 @@
     "jest": "^24.3.1",
     "nodemon": "^1.18.10",
     "supertest": "^4.0.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/henriquesimoes/learning-node-express.git"
+  },
+  "bugs": {
+    "url": "https://github.com/henriquesimoes/learning-node-express/issues"
+  },
+  "homepage": "https://github.com/henriquesimoes/learning-node-express#readme"
 }

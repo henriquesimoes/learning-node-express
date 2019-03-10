@@ -3,7 +3,9 @@
     "driver": "mongodb",
     "host": "mongo",
     "port": 27017,
-    "name": "node-express"
+    "name": "node-express",
+    "user": "",
+    "pass": ""
   },
   "server": {
     "host": "localhost",
